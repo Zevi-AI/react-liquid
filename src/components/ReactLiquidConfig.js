@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Liquid from 'liquidjs/dist/liquid'
+import { Liquid } from 'liquidjs/dist/liquid.browser.esm'
 
-export const liquidEngine = Liquid()
+export const liquidEngine = new Liquid()
 export const ReactLiquidConfig = React.createContext(liquidEngine)
 
 /**
@@ -10,12 +10,12 @@ export const ReactLiquidConfig = React.createContext(liquidEngine)
  *
  * @param {Component} WrappedComponent
  */
-export const ReactLiquidConfigProvider = WrappedComponent =>
+export const ReactLiquidConfigProvider = (WrappedComponent) =>
     class extends Component {
         render() {
             return (
                 <ReactLiquidConfig.Consumer>
-                    {engine => (
+                    {(engine) => (
                         <WrappedComponent
                             liquidEngine={engine}
                             {...this.props}

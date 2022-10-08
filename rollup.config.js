@@ -1,13 +1,14 @@
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
+import { babel } from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import external from 'rollup-plugin-peer-deps-external'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 import postcss from 'rollup-plugin-postcss'
-import resolve from 'rollup-plugin-node-resolve'
-import url from 'rollup-plugin-url'
 
 import pkg from './package.json'
 
 export default {
+    external: ['react', 'react-dom', 'react-is', 'prop-types'],
     input: 'src/index.js',
     output: [
         {
@@ -22,16 +23,19 @@ export default {
         },
     ],
     plugins: [
+        nodeResolve(),
         external(),
         postcss({
             modules: true,
         }),
-        url(),
+        // url(),
         babel({
+            babelHelpers: 'runtime',
             exclude: 'node_modules/**',
-            plugins: ['@babel/plugin-external-helpers'],
+            plugins: ['@babel/plugin-transform-runtime'],
+            // plugins: ['@babel/plugin-external-helpers'],
         }),
-        resolve(),
         commonjs(),
+        nodePolyfills(),
     ],
 }
