@@ -74,10 +74,16 @@ class ReactLiquid extends PureComponent {
   };
 
   render() {
-    const { html, render, style } = this.props;
+    const { html, render, style, onClick } = this.props;
 
     if (html) {
-      return <div style={style || {}} dangerouslySetInnerHTML={this._createHtmlRender()} />;
+      return (
+        <div
+          style={style || {}}
+          onClick={onClick}
+          dangerouslySetInnerHTML={this._createHtmlRender()}
+        />
+      );
     }
 
     if (render) {
